@@ -122,7 +122,7 @@ module GithubGem
         task(:check_not_diverged => :fetch_origin) { check_not_diverged_task }
 
         #checks = [:check_current_branch, :check_clean_status, :check_not_diverged, :check_version]
-        checks = [:check_current_branch, :check_clean_status, :check_version]
+        checks = [:check_current_branch, :check_clean_status]
         checks.unshift('spec:basic') if has_specs?
         checks.unshift('test:basic') if has_tests?
         # checks.push << [:check_rubyforge] if gemspec.rubyforge_project
