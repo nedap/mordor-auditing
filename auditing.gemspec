@@ -21,5 +21,5 @@ Gem::Specification.new do |s|
 
   # The files and test_files directives are set automatically by the release script.
   # Do not change them by hand, but make sure to add the files to the git repository.
-  s.files = %w(Gemfile Rakefile auditing.gemspec lib/auditing.rb lib/auditing/collection.rb lib/auditing/modifications.rb lib/auditing/request.rb lib/auditing/resource.rb lib/auditing/version.rb tasks/github-gem.rake)
+  s.files = %w(.gitignore Gemfile Rakefile auditing.gemspec lib/auditing.rb lib/auditing/collection.rb lib/auditing/modifications.rb lib/auditing/request.rb lib/auditing/resource.rb lib/auditing/version.rb tasks/github-gem.rake)
 end
