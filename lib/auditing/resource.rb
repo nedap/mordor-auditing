@@ -1,16 +1,26 @@
 module Auditing
   module Resource
-    def collection
-      connection.collection(collection_name)
+
+    def self.included(base)
+      base.extend(ClassMethods)
     end
 
-    def collection_name
-      self.class.to_s.pluralize
-    end
+    module ClassMethods
+      def collection
+        connection.collection(self.collection_name)
+      end
 
-    protected
-    def connection
-      @connection ||= Audited.connection
+      def collection_name
+        self.to_s.pluralize
+      end
+
+      def get(id)
+        new(collection.find_one(:_id => id))
+      end
+
+      def connection
+        @connection ||= Auditing.connection
+      end
     end
   end
 end

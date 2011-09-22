@@ -1,5 +1,7 @@
 module Auditing
   class Modification
+    include Resource
+
     attr_accessor :_id
     attr_accessor :request_id
     attr_accessor :object_type
@@ -29,5 +31,6 @@ module Auditing
     def changes=(changes)
       @changes = replace_params(changes)
     end
+
   end
 end

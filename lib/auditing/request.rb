@@ -35,10 +35,6 @@ module Auditing
       @params = replace_params(params)
     end
 
-    def self.get(id)
-      new(collection.find_one(:_id => id))
-    end
-
     private
 
     def collection_name

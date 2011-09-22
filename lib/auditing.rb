@@ -1,4 +1,8 @@
+require 'rubygems'
 require 'mongo'
+gem 'extlib', '~>0.9.9'
+require 'extlib'
+require 'extlib/inflection'
 require 'auditing/version'
 require 'auditing/collection'
 require 'auditing/resource'
