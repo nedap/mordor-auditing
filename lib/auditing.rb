@@ -1,16 +1,88 @@
 require 'rubygems'
 require 'mongo'
-gem 'extlib', '~>0.9.9'
 require 'extlib'
-require 'extlib/inflection'
 require 'auditing/version'
 require 'auditing/collection'
 require 'auditing/resource'
 require 'auditing/request'
 require 'auditing/modifications'
 
-module Auditing
+unless Object.const_defined?('BigDecimal')
+  BigDecimal = Float
+end
 
+class Date
+  def to_time(form = :utc)
+    Time.send("#{form}", year, month, day)
+  end
+
+  def to_gm
+    Time.gm(year, month, day).to_datetime
+  end
+
+  def to_local
+    Time.local(year, month, day).to_datetime
+  end
+
+  def to_datetime
+    DateTime.civil(self.year, self.mon, self.day)
+  end
+
+  def show(format = nil)
+    case format
+    when :human
+      strftime("%d-%m-%Y")
+    else
+      to_s
+    end
+  end
+
+  def full_string
+    strftime("%A %d %B %Y")
+  end
+end
+
+class DateTime
+  def to_datetime
+    self
+  end
+
+  def to_date
+    Date.civil(self.year, self.mon, self.day)
+  end
+
+  def show(format = nil)
+    case format
+    when :human
+      strftime("%d-%m-%Y %H:%M")
+    when :full
+      strftime("%d-%m-%Y %H:%M:%S")
+    else
+      to_s
+    end
+  end
+end
+
+class Time
+
+  def to_date
+    Date.civil(year, month, day)
+  end if RUBY_VERSION < '1.8.6'
+
+  def show(format = nil)
+    return self.to_date.show(format) if [hour,min] == [0,0]
+    case format
+    when :human
+      strftime("%d-%m-%Y %H:%m")
+    when :full
+      strftime("%d-%m-%Y %H:%M:%S")
+    else
+      to_s
+    end
+  end
+end
+
+module Auditing
   CONFIG = {
     :hostname => 'localhost',
     :port     => 27017,

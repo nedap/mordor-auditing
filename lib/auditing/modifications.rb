@@ -2,7 +2,6 @@ module Auditing
   class Modification
     include Resource
 
-    attr_accessor :_id
     attr_accessor :request_id
     attr_accessor :object_type
     attr_accessor :object_id

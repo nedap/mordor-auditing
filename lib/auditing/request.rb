@@ -2,13 +2,16 @@ module Auditing
   class Request
     include Resource
 
-    attr_accessor :_id
-    attr_accessor :url
-    attr_accessor :method
-    attr_accessor :params
-    attr_accessor :user_id
-    attr_accessor :real_user_id
-    attr_accessor :at
+    attribute :url
+    attribute :method
+    attribute :params
+    attribute :user_id
+    attribute :real_user_id
+    attribute :at
+
+    class << self
+      alias_method :find_by_user, :find_by_user_id
+    end
 
     def initialize(options = {})
       options.each do |key, value|
@@ -32,12 +35,20 @@ module Auditing
     end
 
     def params=(params)
-      @params = replace_params(params)
+      @params = self.replace_params(params)
+    end
+
+    def self.find_by_url(url, partial = false)
+      if partial
+        Collection.new(self, self.collection.find(:url => /.*#{url}.*/))
+      else
+        Collection.new(self, self.collection.find(:url => url))
+      end
     end
 
     private
 
-    def collection_name
+    def self.collection_name
       'audit_requests'
     end
   end
