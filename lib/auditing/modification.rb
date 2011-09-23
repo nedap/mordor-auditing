@@ -31,6 +31,14 @@ module Auditing
       Auditing::Request.find_by_id(request_id)
     end
 
+    def find_by_request_id(id)
+      if id.is_a?(String)
+        super(BSON::ObjectId.from_string(id))
+      else
+        super
+      end
+    end
+
     def to_hash
       hash = super
       hash.merge!(:request_id => request_id) if request_id
