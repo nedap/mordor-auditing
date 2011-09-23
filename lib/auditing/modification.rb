@@ -9,10 +9,6 @@ module Auditing
     attribute :action
     attribute :at
 
-    class << self
-      alias_method :find_by_request, :find_by_request_id
-    end
-
     def initialize(options = {})
       options.each do |key, value|
         self.send("#{key}=", value)
@@ -20,23 +16,25 @@ module Auditing
     end
 
     def request_id=(id)
-      if id.is_a?(BSON::ObjectId)
-        @request_id = id.to_s
-      else
-        @request_id = id
+      if id.is_a?(String) && id != ""
+        id = BSON::ObjectId.from_string(id)
       end
+      @request_id = id
     end
 
     def request
       Auditing::Request.find_by_id(request_id)
     end
 
-    def find_by_request_id(id)
+    def self.find_by_request(id)
+      find_by_request_id(id)
+    end
+
+    def self.find_by_request_id(id)
       if id.is_a?(String)
-        super(BSON::ObjectId.from_string(id))
-      else
-        super
+        id = BSON::ObjectId.from_string(id)
       end
+      Collection.new(self, self.collection.find(:request_id => id))
     end
 
     def to_hash

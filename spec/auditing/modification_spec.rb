@@ -126,7 +126,7 @@ describe "with respect to modifications" do
     end
 
     it "should correctly retrieve requests by request_id" do
-      @modification.request_id = "1234"
+      @modification.request_id = "4e79b0b20e02e145a9000001"
       @modification.save.should be_true
       mods = Auditing::Modification.find_by_request_id(@modification.request_id)
       mods.size.should == 1
@@ -134,7 +134,7 @@ describe "with respect to modifications" do
     end
 
     it "should correctly retrieve requests by request" do
-      @modification.request_id = "1234"
+      @modification.request_id = "4e79b0b20e02e145a9000001"
       @modification.save.should be_true
       mods = Auditing::Modification.find_by_request(@modification.request_id)
       mods.size.should == 1
