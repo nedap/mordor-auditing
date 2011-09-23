@@ -5,7 +5,7 @@ require 'auditing/version'
 require 'auditing/collection'
 require 'auditing/resource'
 require 'auditing/request'
-require 'auditing/modifications'
+require 'auditing/modification'
 
 unless Object.const_defined?('BigDecimal')
   BigDecimal = Float

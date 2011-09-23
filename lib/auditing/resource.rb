@@ -10,7 +10,7 @@ module Auditing
       result = {}
       params.each do |key, value|
         value = replace_type(value)
-        key = key.to_s.gsub(/^(\$)|\./, "_")
+        key = key.to_s.gsub(/\W|\./, "_")
         result[key] = value
       end
       result
@@ -36,13 +36,32 @@ module Auditing
     end
 
     def save
-      insert_id = self.class.collection.insert(self.to_hash)
-      self._id = insert_id
+      unless self._id
+        insert_id = self.class.collection.insert(self.to_hash)
+        self._id = insert_id
+      else
+        insert_id = self.update
+      end
       insert_id != nil
+    end
+
+    def update
+      insert_id = self.class.collection.update({:_id => self._id}, self.to_hash)
+      insert_id
     end
 
     def collection
       self.class.collection
+    end
+
+    def to_hash
+      attributes = self.class.instance_variable_get(:@attributes)
+      return {} unless attributes
+      result = {}
+      attributes.each do |attribute_name|
+        result[attribute_name] = replace_type(self.send(attribute_name))
+      end
+      result
     end
 
     module ClassMethods
@@ -84,9 +103,12 @@ module Auditing
       end
 
       def attribute(name)
-        attr_accessor name
+        @attributes ||= []
+        @attributes << name unless @attributes.include?(name)
 
         class_eval <<-EOS, __FILE__, __LINE__
+          attr_accessor name
+
           def self.find_by_#{name}(value)
             Collection.new(self, collection.find(:#{name} => value))
           end

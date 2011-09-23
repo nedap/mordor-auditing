@@ -18,5 +18,8 @@ def clean_sheet
   [Auditing::Request, Auditing::Modification].each do |klass|
     @db[klass.collection_name].drop
   end
+  if Object.const_defined?('TestResource')
+    @db[TestResource.collection_name].drop
+  end
 end
 

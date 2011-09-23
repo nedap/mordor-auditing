@@ -21,6 +21,31 @@ module AuditingRequestSpecHelper
       retrieved_request.at == stored_request.at
     end
   end
+
+  def compare_modifications(stored_mods, retrieved_mods)
+    if retrieved_mods.is_a?(BSON::OrderedHash)
+      retrieved_mods['_id'].should == stored_mods._id
+      retrieved_mods['request_id'].should == (stored_mods.request_id ? stored_mods.request_id : "")
+      retrieved_mods['object_type'].should == stored_mods.object_type
+      retrieved_mods['object_id'].should == stored_mods.object_id
+      retrieved_mods['changes'].size.should == stored_mods.changes.size
+      retrieved_mods['changes'].each do |k,v|
+        stored_mods.changes[k].should == v
+      end
+      retrieved_mods['action'].should == stored_mods.action
+      retrieved_mods['at'].to_s.should == stored_mods.at.to_time.to_s
+    else
+      retrieved_mods._id.should == stored_mods._id
+      retrieved_mods.request_id.should == (stored_mods.request_id ? stored_mods.request_id : "")
+      retrieved_mods.object_type.should == stored_mods.object_type
+      retrieved_mods.object_id.should == stored_mods.object_id
+      retrieved_mods.changes.each do |key, value|
+        stored_mods.changes[key].should == value
+      end
+      retrieved_mods.action.should == stored_mods.action
+      retrieved_mods.at.to_s.to_should == stored_mods.at.to_time.to_s
+    end
+  end
 end
 
 describe "with respect to auditing requests" do
@@ -43,12 +68,12 @@ describe "with respect to auditing requests" do
     request = Auditing::Request.new(options)
     options.each do |key, value|
       ret_val = request.send(key)
-      if value.is_a?(Array)
+      if value.is_a?(Hash)
         value.each do |k, v|
-          ret_val[k] == value[k]
+          ret_val[k.to_s].should == v
         end
       else
-        ret_val == value
+        ret_val.should == value
       end
     end
   end
@@ -149,6 +174,30 @@ describe "with respect to auditing requests" do
       reqs = Auditing::Request.find_by_method(@request.method)
       reqs.size.should == 1
       compare_requests(@request, reqs.first)
+    end
+
+    describe "with respect to modifications" do
+      before :each do
+        options = {
+          :request_id => @request._id,
+          :object_type => "Audited::Request",
+          :object_id => @request._id.to_s,
+          :changes => {:url => [@request.url, "#{@request.url}/request"]},
+          :action => 'get',
+          :at => @request.at,
+          :request_id => @request._id
+        }
+        @modification = Auditing::Modification.new(options)
+        @modification.save.should be_true
+        @modification._id.should_not be_nil
+        Auditing::Modification.collection.count == 1
+      end
+
+      it "should correctly retrieve the corresponding modifications" do
+        @request.modifications.should_not be_nil
+        @request.modifications.size.should == 1
+        compare_modifications(@modification, @request.modifications.first)
+      end
     end
   end
 end
