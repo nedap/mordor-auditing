@@ -104,6 +104,15 @@ describe "with respect to resources" do
       res.first.should  == resource.first
       res.second.should == resource.second
     end
+
+    it "should be able to find resources by their ids as strings" do
+      resource = TestResource.new({:first => "first", :second => "second"})
+      resource.save.should be_true
+      res = TestResource.find_by_id(resource._id.to_s)
+      res._id.should    == resource._id
+      res.first.should  == resource.first
+      res.second.should == resource.second
+    end
   end
 
   context "with respect to collections" do

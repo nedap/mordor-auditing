@@ -16,7 +16,7 @@ module Auditing
     def first
       result = @cursor.first
       @cursor.rewind!
-      result
+      @klass.new(result)
     end
 
     def size

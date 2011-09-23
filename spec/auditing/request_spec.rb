@@ -43,7 +43,7 @@ module AuditingRequestSpecHelper
         stored_mods.changes[key].should == value
       end
       retrieved_mods.action.should == stored_mods.action
-      retrieved_mods.at.to_s.to_should == stored_mods.at.to_time.to_s
+      retrieved_mods.at.to_s.should == stored_mods.at.to_time.to_s
     end
   end
 end
@@ -197,6 +197,13 @@ describe "with respect to auditing requests" do
         @request.modifications.should_not be_nil
         @request.modifications.size.should == 1
         compare_modifications(@modification, @request.modifications.first)
+      end
+
+      it "should correctly retrieve the same request through the modifications" do
+        @request.modifications.should_not be_nil
+        @request.modifications.size.should == 1
+        compare_modifications(@modification, @request.modifications.first)
+        compare_requests(@request, @request.modifications.first.request)
       end
     end
   end

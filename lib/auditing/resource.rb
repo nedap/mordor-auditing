@@ -75,6 +75,9 @@ module Auditing
       end
 
       def get(id)
+        if id.is_a?(String)
+          id = BSON::ObjectId.from_string(id)
+        end
         new(collection.find_one(:_id => id))
       end
 

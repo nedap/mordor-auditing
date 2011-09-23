@@ -27,6 +27,10 @@ module Auditing
       end
     end
 
+    def request
+      Auditing::Request.find_by_id(request_id)
+    end
+
     def to_hash
       hash = super
       hash.merge!(:request_id => request_id) if request_id
