@@ -29,12 +29,16 @@ module Auditing
     end
 
     def url=(url)
-      @url_parts = url_to_parts(url)
+      self.url_parts = url_to_parts(url)
       @url = url
     end
 
     def modifications
       Modification.find_by_request(_id.to_s)
+    end
+
+    def url_parts=(parts)
+      @url_parts = self.replace_params(parts)
     end
 
     def params=(params)
@@ -65,8 +69,11 @@ module Auditing
 
     def url_to_parts(url)
       result = {}
-      url.scan(/([\w|_]+)\/([\d|-]+)/).each do |key, value|
-        result[key] = value
+      if url
+        url.scan(/([\w|_]+)\/([\d|-]+)/).each do |key, value|
+          key = key.gsub(/\W|\./, "_")
+          result[key.to_sym] = value.to_i
+        end
       end
       result
     end
