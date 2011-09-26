@@ -206,5 +206,117 @@ describe "with respect to auditing requests" do
         compare_requests(@request, @request.modifications.first.request)
       end
     end
+
+  end
+
+  describe "with respect to urls" do
+    before :each do
+      options = {
+        :url => '/week/2011-39/staffing_agencies/123/customers/12/arrangements/123',
+        :method => 'get',
+        :params => {:test_param1 => '1', :test_param2 => '2'},
+        :user_id => 3,
+        :real_user_id => 5,
+        :at => Time.now
+      }
+      @request = Auditing::Request.new(options)
+      @request.save.should be_true
+    end
+
+    it "should create url parts when saved" do
+      @request.url_parts.should_not be_nil
+    end
+
+    it "should create correct url parts" do
+      parts = @request.url_parts
+      parts.keys.should include "week"
+      parts.keys.should include "staffing_agencies"
+      parts.keys.should include "customers"
+      parts.keys.should include "arrangements"
+
+      parts["week"].should == "2011-39"
+      parts["staffing_agencies"].should == "123"
+      parts["customers"].should == "12"
+      parts["arrangements"].should == "123"
+    end
+
+    it "should correctly get weeks" do
+      options = {
+        :url => '/week/2011-9/staffing_agencies/123/customers/12/arrangements/123',
+        :method => 'get',
+        :params => {:test_param1 => '1', :test_param2 => '2'},
+        :user_id => 3,
+        :real_user_id => 5,
+        :at => Time.now
+      }
+      request = Auditing::Request.new(options)
+      request.save.should be_true
+      request.url_parts.keys.should include "week"
+      request.url_parts["week"].should == "2011-9"
+
+      options = {
+        :url => '/week/weeknumber/staffing_agencies/123/customers/12/arrangements/123',
+        :method => 'get',
+        :params => {:test_param1 => '1', :test_param2 => '2'},
+        :user_id => 3,
+        :real_user_id => 5,
+        :at => Time.now
+      }
+      request = Auditing::Request.new(options)
+      request.save.should be_true
+      request.url_parts.keys.should_not include "week"
+    end
+
+    it "should corretly retrieve requests based on parts of the url" do
+      options = {
+        :url => '/week/2011-9/staffing_agencies/1234/customers/12/arrangements/123',
+        :method => 'get',
+        :params => {:test_param1 => '1', :test_param2 => '2'},
+        :user_id => 3,
+        :real_user_id => 5,
+        :at => Time.now
+      }
+      request = Auditing::Request.new(options)
+      request.save.should be_true
+
+      options2 = {
+        :url => '/week/2011-9/staffing_agencies/13/customers/124/arrangements/123',
+        :method => 'get',
+        :params => {:test_param1 => '1', :test_param2 => '2'},
+        :user_id => 3,
+        :real_user_id => 5,
+        :at => Time.now
+      }
+      request2 = Auditing::Request.new(options2)
+      request2.save.should be_true
+
+      search_options = {
+        :week => "2011-9"
+      }
+      results = Auditing::Request.find_by_url_parts(search_options)
+      results.size.should == 2
+
+      match = (results.first._id == request._id || results.first._id == request2._id)
+      match.should be_true
+
+      search_options = {
+        :staffing_agencies => "1234"
+      }
+
+      results = Auditing::Request.find_by_url_parts(search_options)
+      results.size.should == 1
+      results.first._id.should == request._id
+
+      search_options = {
+        :week => "2011-9",
+        :arrangements => "123"
+      }
+      results = Auditing::Request.find_by_url_parts(search_options)
+      results.size.should == 2
+
+      match = (results.first._id == request._id || results.first._id == request2._id)
+      match.should be_true
+
+    end
   end
 end
