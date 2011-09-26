@@ -105,14 +105,17 @@ module Auditing
         Collection.new(self, cursor)
       end
 
-      def attribute(name)
+      def attribute(name, options = {})
         @attributes ||= []
         @attributes << name unless @attributes.include?(name)
+
+        method_name = options.key?(:finder_method) ? options[:finder_method] : "find_by_#{name}"
+
 
         class_eval <<-EOS, __FILE__, __LINE__
           attr_accessor name
 
-          def self.find_by_#{name}(value)
+          def self.#{method_name}(value)
             Collection.new(self, collection.find(:#{name} => value))
           end
         EOS

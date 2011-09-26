@@ -6,6 +6,7 @@ describe "with respect to resources" do
 
     attribute :first
     attribute :second
+    attribute :third, :finder_method => :find_by_third_attribute
 
     def initialize(options = {})
       options.each do |k, v|
@@ -22,6 +23,10 @@ describe "with respect to resources" do
     ["find_by_first", "find_by_second"].each do |finder_method|
       TestResource.methods.should include(finder_method)
     end
+  end
+
+  it "should create finder methods with the supplied finder method name" do
+    TestResource.methods.should include "find_by_third_attribute"
   end
 
   context "with respect to replacing params" do
@@ -59,11 +64,12 @@ describe "with respect to resources" do
     end
 
     it "should correctly respond to to_hash" do
-      resource = TestResource.new({:first => "first", :second => "second"})
+      resource = TestResource.new({:first => "first", :second => "second", :third => "third"})
       hash = resource.to_hash
-      hash.size.should     == 2
+      hash.size.should     == 3
       hash[:first].should  == "first"
       hash[:second].should == "second"
+      hash[:third].should  == "third" 
     end
   end
 

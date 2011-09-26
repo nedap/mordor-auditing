@@ -5,13 +5,9 @@ module Auditing
     attribute :url
     attribute :method
     attribute :params
-    attribute :user_id
+    attribute :user_id, :finder_method => :find_by_user
     attribute :real_user_id
     attribute :at
-
-    class << self
-      alias_method :find_by_user, :find_by_user_id
-    end
 
     def initialize(options = {})
       options.each do |key, value|
