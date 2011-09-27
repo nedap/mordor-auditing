@@ -72,7 +72,7 @@ module Auditing
       if url
         url.scan(/([\w|_]+)\/([\d|-]+)/).each do |key, value|
           key = key.gsub(/\W|\./, "_")
-          result[key.to_sym] = value.to_i
+          result[key.to_sym] = value.match(/-/) ? value : value.to_i
         end
       end
       result
