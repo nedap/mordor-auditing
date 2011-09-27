@@ -9,14 +9,14 @@ module Auditing
 
     def each
       @cursor.each do |element|
-        yield @klass.new(element)
+        element ? yield @klass.new(element) : next
       end
     end
 
     def first
       result = @cursor.first
       @cursor.rewind!
-      @klass.new(result)
+      result ? @klass.new(result) : nil
     end
 
     def size
