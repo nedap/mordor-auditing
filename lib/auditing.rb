@@ -1,9 +1,8 @@
 require 'rubygems'
 require 'mongo'
 require 'extlib'
+require 'mordor'
 require 'auditing/version'
-require 'auditing/collection'
-require 'auditing/resource'
 require 'auditing/request'
 require 'auditing/modification'
 
@@ -82,7 +81,7 @@ class Time
   end
 end
 
-module Auditing
+module Mordor
   CONFIG = {
     :hostname => 'localhost',
     :port     => 27017,

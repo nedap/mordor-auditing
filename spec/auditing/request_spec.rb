@@ -235,9 +235,9 @@ describe "with respect to auditing requests" do
       parts.keys.should include "arrangements"
 
       parts["week"].should == "2011-39"
-      parts["staffing_agencies"].should == "123"
-      parts["customers"].should == "12"
-      parts["arrangements"].should == "123"
+      parts["staffing_agencies"].should == 123
+      parts["customers"].should == 12
+      parts["arrangements"].should == 123
     end
 
     it "should correctly get weeks" do
@@ -300,7 +300,7 @@ describe "with respect to auditing requests" do
       match.should be_true
 
       search_options = {
-        :staffing_agencies => "1234"
+        :staffing_agencies => 1234
       }
 
       results = Auditing::Request.find_by_url_parts(search_options)
@@ -309,7 +309,7 @@ describe "with respect to auditing requests" do
 
       search_options = {
         :week => "2011-9",
-        :arrangements => "123"
+        :arrangements => 123
       }
       results = Auditing::Request.find_by_url_parts(search_options)
       results.size.should == 2

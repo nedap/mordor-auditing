@@ -1,6 +1,6 @@
 module Auditing
   class Modification
-    include Resource
+    include Mordor::Resource
 
     attribute :request_id
     attribute :object_type
@@ -34,7 +34,7 @@ module Auditing
       if id.is_a?(String)
         id = BSON::ObjectId.from_string(id)
       end
-      Collection.new(self, self.collection.find(:request_id => id))
+      Mordor::Collection.new(self, self.collection.find(:request_id => id))
     end
 
     def to_hash

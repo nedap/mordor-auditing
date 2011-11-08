@@ -1,6 +1,6 @@
 module Auditing
   class Request
-    include Resource
+    include Mordor::Resource
 
     attribute :url
     attribute :url_parts
@@ -47,9 +47,9 @@ module Auditing
 
     def self.find_by_url(url, partial = false)
       if partial
-        Collection.new(self, self.collection.find(:url => /.*#{url}.*/))
+        Mordor::Collection.new(self, self.collection.find(:url => /.*#{url}.*/))
       else
-        Collection.new(self, self.collection.find(:url => url))
+        Mordor::Collection.new(self, self.collection.find(:url => url))
       end
     end
 
@@ -58,7 +58,7 @@ module Auditing
       params.each do |key, value|
         parts_params["url_parts.#{key}"] = value
       end
-      Collection.new(self, self.collection.find(parts_params))
+      Mordor::Collection.new(self, self.collection.find(parts_params))
     end
 
     private
