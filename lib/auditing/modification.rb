@@ -9,12 +9,6 @@ module Auditing
     attribute :action
     attribute :at
 
-    def initialize(options = {})
-      options.each do |key, value|
-        self.send("#{key}=", value)
-      end
-    end
-
     def request_id=(id)
       if id.is_a?(String) && id != ""
         id = BSON::ObjectId.from_string(id)

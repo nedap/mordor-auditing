@@ -10,12 +10,6 @@ module Auditing
     attribute :real_user_id
     attribute :at
 
-    def initialize(options = {})
-      options.each do |key, value|
-        self.send("#{key}=", value)
-      end
-    end
-
     def to_hash
       {
         :user_id      => user_id,
