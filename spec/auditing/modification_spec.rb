@@ -4,7 +4,7 @@ module AuditingModificationSpecHelper
   def compare_modifications(stored_mods, retrieved_mods)
     if retrieved_mods.is_a?(BSON::OrderedHash)
       retrieved_mods['_id'].should == stored_mods._id
-      retrieved_mods['request_id'].should == (stored_mods.request_id ? stored_mods.request_id : "")
+      retrieved_mods['request_id'].should == (stored_mods.request_id ? stored_mods.request_id : nil)
       retrieved_mods['object_type'].should == stored_mods.object_type
       retrieved_mods['object_id'].should == stored_mods.object_id
       retrieved_mods['changes'].size.should == stored_mods.changes.size
@@ -15,7 +15,7 @@ module AuditingModificationSpecHelper
       retrieved_mods['at'].should == stored_mods.at.to_time
     else
       retrieved_mods._id.should == stored_mods._id
-      retrieved_mods.request_id.should == (stored_mods.request_id ? stored_mods.request_id : "")
+      retrieved_mods.request_id.should == (stored_mods.request_id ? stored_mods.request_id : nil)
       retrieved_mods.object_type.should == stored_mods.object_type
       retrieved_mods.object_id.should == stored_mods.object_id
       retrieved_mods.changes.each do |key, value|
@@ -40,7 +40,7 @@ describe "with respect to modifications" do
       :object_id => 2,
       :changes => {:length => [2, 4]},
       :action => 'put',
-      :at => DateTime.now
+      :at => DateTime.now.to_time
     }
     mod = Auditing::Modification.new(options)
     options.each do |key, value|
@@ -62,7 +62,7 @@ describe "with respect to modifications" do
         :object_id => 2,
         :changes => {:length => [2, 4]},
         :action => 'put',
-        :at => DateTime.now
+        :at => DateTime.now.to_time
       }
 
       mod = Auditing::Modification.new(options)
@@ -84,7 +84,7 @@ describe "with respect to modifications" do
         :object_id => 2,
         :changes => {:length => [2, 4]},
         :action => 'put',
-        :at => DateTime.now
+        :at => DateTime.now.to_time
       }
 
       @modification = Auditing::Modification.new(options)

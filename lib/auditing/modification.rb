@@ -20,6 +20,10 @@ module Auditing
       Auditing::Request.find_by_id(request_id)
     end
 
+    def request=(request)
+      self.request_id = request._id
+    end
+
     def self.find_by_request(id)
       find_by_request_id(id)
     end
@@ -32,9 +36,14 @@ module Auditing
     end
 
     def to_hash
-      hash = super
-      hash.merge!(:request_id => request_id) if request_id
-      hash
+      {
+        :request_id  => request_id,
+        :object_type => object_type,
+        :object_id   => object_id,
+        :changes     => changes,
+        :action      => action,
+        :at          => at
+      }
     end
 
     def changes=(changes)

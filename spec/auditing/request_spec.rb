@@ -12,7 +12,7 @@ module AuditingRequestSpecHelper
       retrieved_request['params']['test_param2'].should                    == stored_request.params['test_param2']
       retrieved_request['user_id'].should                                  == stored_request.user_id
       retrieved_request['real_user_id'].should                             == stored_request.real_user_id
-      retrieved_request['at'].to_s.should                                  == stored_request.at.gmtime.to_s
+      retrieved_request['at'].gmtime.to_s.should                                  == stored_request.at.gmtime.to_s
     else
       retrieved_request.url == stored_request.url
       retrieved_request.method == stored_request.method
@@ -43,7 +43,7 @@ module AuditingRequestSpecHelper
         stored_mods.changes[key].should == value
       end
       retrieved_mods.action.should == stored_mods.action
-      retrieved_mods.at.to_s.should == stored_mods.at.to_time.to_s
+      retrieved_mods.at.should == stored_mods.at.to_time
     end
   end
 end
@@ -118,13 +118,14 @@ describe "with respect to auditing requests" do
 
   describe "with respect to retrieval" do
     before(:each) do
+      @request_time = DateTime.now.to_time
       options = {
         :url => 'http://test.com',
         :method => 'get',
         :params => {:test_param1 => '1', :test_param2 => '2'},
         :user_id => 3,
         :real_user_id => 5,
-        :at => Time.now
+        :at => @request_time
       }
       @request = Auditing::Request.new(options)
       @request.save.should be_true
@@ -184,7 +185,7 @@ describe "with respect to auditing requests" do
           :object_id => @request._id.to_s,
           :changes => {:url => [@request.url, "#{@request.url}/request"]},
           :action => 'get',
-          :at => @request.at,
+          :at => @request_time,
           :request_id => @request._id
         }
         @modification = Auditing::Modification.new(options)
