@@ -6,9 +6,9 @@ module Auditing
     attribute :url_parts
     attribute :method
     attribute :params
-    attribute :user_id, :finder_method => :find_by_user
+    attribute :user_id, :finder_method => :find_by_user, :index => true
     attribute :real_user_id
-    attribute :at
+    attribute :at, :index => true
 
     def to_hash
       {

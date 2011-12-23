@@ -2,12 +2,12 @@ module Auditing
   class Modification
     include Mordor::Resource
 
-    attribute :request_id
+    attribute :request_id, :index => true
     attribute :object_type
     attribute :object_id
     attribute :changes
     attribute :action
-    attribute :at
+    attribute :at, :index => true
 
     def request_id=(id)
       if id.is_a?(String) && id != ""
