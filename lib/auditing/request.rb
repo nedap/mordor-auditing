@@ -7,7 +7,7 @@ module Auditing
     attribute :method
     attribute :params
     attribute :user_id, :finder_method => :find_by_user, :index => true
-    attribute :real_user_id
+    attribute :real_user_id, :index => true
     attribute :at, :index => true
 
     def to_hash

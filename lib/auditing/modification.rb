@@ -3,8 +3,8 @@ module Auditing
     include Mordor::Resource
 
     attribute :request_id, :index => true
-    attribute :object_type
-    attribute :object_id
+    attribute :object_type, :index => true
+    attribute :object_id, :index => true
     attribute :changes
     attribute :action
     attribute :at, :index => true
