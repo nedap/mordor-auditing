@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    auditing (0.0.1)
+    mordor-auditing (0.0.2)
       mordor (= 0.2.1)
 
 GEM
@@ -32,7 +32,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  auditing!
   mordor (= 0.2.1)
+  mordor-auditing!
   rake
   rspec (~> 2.0)
