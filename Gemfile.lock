@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mordor-auditing (0.0.2)
+    mordor-auditing (0.0.3)
       mordor (= 0.2.1)
 
 GEM
