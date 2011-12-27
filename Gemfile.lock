@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     auditing (0.0.1)
-      mordor (= 0.2.0)
+      mordor (= 0.2.1)
 
 GEM
   specs:
@@ -13,7 +13,7 @@ GEM
     json (1.6.1)
     mongo (1.4.0)
       bson (= 1.4.0)
-    mordor (0.2.0)
+    mordor (0.2.1)
       bson_ext
       extlib
       json
@@ -33,6 +33,6 @@ PLATFORMS
 
 DEPENDENCIES
   auditing!
-  mordor (= 0.2.0)
+  mordor (= 0.2.1)
   rake
   rspec (~> 2.0)
