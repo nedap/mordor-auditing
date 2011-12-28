@@ -3,7 +3,7 @@ module Auditing
     include Mordor::Resource
 
     attribute :url
-    attribute :url_parts
+    attribute :url_parts, :index => true
     attribute :method
     attribute :params
     attribute :user_id, :finder_method => :find_by_user, :index => true
