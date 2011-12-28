@@ -9,6 +9,7 @@ module Auditing
     attribute :user_id, :finder_method => :find_by_user, :index => true
     attribute :real_user_id, :index => true
     attribute :at, :index => true
+    attribute :timestamp, :timestamp => true, :index => true
 
     def to_hash
       {
@@ -18,7 +19,8 @@ module Auditing
         :url          => url,
         :url_parts    => url_parts,
         :method       => method,
-        :at           => at
+        :at           => at,
+        :timestamp    => timestamp
       }
     end
 

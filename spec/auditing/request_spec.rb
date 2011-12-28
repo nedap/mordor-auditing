@@ -78,6 +78,19 @@ describe "with respect to auditing requests" do
     end
   end
 
+  it "should have a timestamp attribute" do
+    Auditing::Request.timestamped_attribute.should_not be_nil
+  end
+
+  it "should add a timestamp value after creation" do
+    options = {
+      :params => {:first => Date.today}
+    }
+    request = Auditing::Request.create(options)
+    request.timestamp.should_not be_nil
+    request.timestamp.should_not == BSON::Timestamp.new(0,0)
+  end
+
   it "should correctly replace Date params with Times" do
     options = {
       :params => {:first => Date.today}

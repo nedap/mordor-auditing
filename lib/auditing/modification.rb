@@ -8,6 +8,7 @@ module Auditing
     attribute :changes
     attribute :action
     attribute :at, :index => true
+    attribute :timestamp, :timestamp => true, :index => true
 
     def request_id=(id)
       if id.is_a?(String) && id != ""
@@ -42,7 +43,8 @@ module Auditing
         :object_id   => object_id,
         :changes     => changes,
         :action      => action,
-        :at          => at
+        :at          => at,
+        :timestamp   => timestamp
       }
     end
 

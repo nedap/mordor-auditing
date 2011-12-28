@@ -55,6 +55,24 @@ describe "with respect to modifications" do
     end
   end
 
+  it "should have a timestamp attribute" do
+    Auditing::Request.timestamped_attribute.should_not be_nil
+  end
+
+  it "should add a timestamp value after creation" do
+    options = {
+        :object_type => 'String',
+        :object_id => 2,
+        :changes => {:length => [2, 4]},
+        :action => 'put',
+        :at => DateTime.now.to_time
+      }
+
+    mod = Auditing::Modification.create(options)
+    mod.timestamp.should_not be_nil
+    mod.timestamp.should_not == BSON::Timestamp.new(0,0)
+  end
+
   context "with respect to saving and retrieving" do
     it "should correctly save the modification" do
       options = {
