@@ -69,6 +69,7 @@ describe "with respect to modifications" do
       }
 
     mod = Auditing::Modification.create(options)
+    mod.reload
     mod.timestamp.should_not be_nil
     mod.timestamp.should_not == BSON::Timestamp.new(0,0)
   end

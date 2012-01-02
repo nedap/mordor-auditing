@@ -87,6 +87,7 @@ describe "with respect to auditing requests" do
       :params => {:first => Date.today}
     }
     request = Auditing::Request.create(options)
+    request.reload
     request.timestamp.should_not be_nil
     request.timestamp.should_not == BSON::Timestamp.new(0,0)
   end
