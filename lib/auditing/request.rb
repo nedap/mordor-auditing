@@ -11,19 +11,6 @@ module Auditing
     attribute :at, :index => true
     attribute :timestamp, :timestamp => true, :index => true
 
-    def to_hash
-      {
-        :user_id      => user_id,
-        :real_user_id => real_user_id,
-        :params       => params,
-        :url          => url,
-        :url_parts    => url_parts,
-        :method       => method,
-        :at           => at,
-        :timestamp    => timestamp
-      }
-    end
-
     def url=(url)
       self.url_parts = url_to_parts(url)
       @url = url

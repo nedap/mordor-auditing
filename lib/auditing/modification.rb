@@ -37,15 +37,9 @@ module Auditing
     end
 
     def to_hash
-      {
-        :request_id  => request_id,
-        :object_type => object_type,
-        :object_id   => object_id,
-        :changes     => changes,
-        :action      => action,
-        :at          => at,
-        :timestamp   => timestamp
-      }
+      h = super
+      h[:request_id] = request_id
+      h
     end
 
     def changes=(changes)
