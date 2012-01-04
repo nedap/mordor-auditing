@@ -282,7 +282,7 @@ describe "with respect to auditing requests" do
       request.url_parts.keys.should_not include "week"
     end
 
-    it "should corretly retrieve requests based on parts of the url" do
+    it "should correctly retrieve requests based on parts of the url" do
       options = {
         :url => '/week/2011-9/staffing_agencies/1234/customers/12/arrangements/123',
         :method => 'get',
@@ -331,7 +331,39 @@ describe "with respect to auditing requests" do
 
       match = (results.first._id == request._id || results.first._id == request2._id)
       match.should be_true
+    end
 
+    it "should be possible to add extra query parts to the url_parts query" do
+       options = {
+        :url => '/week/2011-9/staffing_agencies/1234/customers/12/arrangements/123',
+        :method => 'get',
+        :params => {:test_param1 => '1', :test_param2 => '2'},
+        :user_id => 4,
+        :real_user_id => 5,
+        :at => Time.now
+      }
+      request = Auditing::Request.new(options)
+      request.save.should be_true
+
+      options2 = {
+        :url => '/week/2011-9/staffing_agencies/13/customers/124/arrangements/123',
+        :method => 'get',
+        :params => {:test_param1 => '1', :test_param2 => '2'},
+        :user_id => 3,
+        :real_user_id => 5,
+        :at => Time.now
+      }
+      request2 = Auditing::Request.new(options2)
+      request2.save.should be_true
+
+      search_options = {
+        :week => "2011-9"
+      }
+      results = Auditing::Request.find_by_url_parts(search_options)
+      results.size.should == 2
+
+      results = Auditing::Request.find_by_url_parts({:value => search_options, :user_id => 4})
+      results.size.should == 1
     end
   end
 end

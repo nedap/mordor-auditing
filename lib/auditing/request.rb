@@ -37,17 +37,26 @@ module Auditing
     end
 
     def self.find_by_url_parts(params = {})
-      parts_params = {}
-      params.each do |key, value|
-        parts_params["url_parts.#{key}"] = value
+      query = {}
+      if parts_value = params.delete(:value)
+        query = params_to_query_params(parts_value).merge(params)
+      else
+        query = params_to_query_params(params)
       end
-      Mordor::Collection.new(self, self.collection.find(parts_params))
+      Mordor::Collection.new(self, self.collection.find(query))
     end
 
     private
-
     def self.collection_name
       'audit_requests'
+    end
+
+    def self.params_to_query_params(hash)
+      result = {}
+      hash.each do |key, value|
+        result["url_parts.#{key}"] = value
+      end
+      result
     end
 
     def url_to_parts(url)
