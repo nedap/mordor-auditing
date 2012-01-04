@@ -36,14 +36,15 @@ module Auditing
       end
     end
 
-    def self.find_by_url_parts(params = {})
+    def self.find_by_url_parts(params = {}, options = {})
       query = {}
       if parts_value = params.delete(:value)
         query = params_to_query_params(parts_value).merge(params)
       else
         query = params_to_query_params(params)
       end
-      Mordor::Collection.new(self, self.collection.find(query))
+      col = perform_collection_find(query, options)
+      Mordor::Collection.new(self, col)
     end
 
     private
