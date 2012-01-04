@@ -6,6 +6,10 @@ require 'auditing/version'
 require 'auditing/request'
 require 'auditing/modification'
 
+Mordor::Config.use do |config|
+ config[:database] = 'development89'
+end
+
 unless Object.const_defined?('BigDecimal')
   BigDecimal = Float
 end
@@ -79,20 +83,4 @@ class Time
       to_s
     end
   end
-end
-
-module Mordor
-  CONFIG = {
-    :hostname => 'localhost',
-    :port     => 27017,
-    :database => 'development'
-  }
-
-  def connection
-    @connection ||= Mongo::Connection.new(CONFIG[:hostname], CONFIG[:port])
-    @connection.autenticate(CONFIG[:username], CONFIG[:password]) if CONFIG[:username]
-    @connection.db(CONFIG[:database])
-  end
-  module_function :connection
-
 end

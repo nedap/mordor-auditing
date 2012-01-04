@@ -30,10 +30,6 @@ end
 describe "with respect to modifications" do
   include AuditingModificationSpecHelper
 
-  before :each do
-    clean_sheet
-  end
-
   it "should correctly initialize" do
     options = {
       :object_type => 'String',
@@ -75,6 +71,10 @@ describe "with respect to modifications" do
   end
 
   context "with respect to saving and retrieving" do
+    before :each do
+      clean_sheet
+    end
+
     it "should correctly save the modification" do
       options = {
         :object_type => 'String',
@@ -98,6 +98,8 @@ describe "with respect to modifications" do
 
   describe "with respect to retrieval" do
     before :each do
+      clean_sheet
+
       options = {
         :object_type => 'String',
         :object_id => 2,
@@ -118,6 +120,7 @@ describe "with respect to modifications" do
 
      it "should correctly retrieve requests on a certain day" do
       mods = Auditing::Modification.find_by_day(Date.today)
+
       mods.size.should == 1
       compare_modifications(@modification, mods.first)
 
