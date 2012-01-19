@@ -13,9 +13,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec', '~> 2.0')
 
-  s.add_development_dependency('mordor', '0.2.9')
+  s.add_development_dependency('mordor', '0.2.10')
 
-  s.add_runtime_dependency('mordor', '0.2.9')
+  s.add_runtime_dependency('mordor', '0.2.10')
 
   s.authors  = ['Jan-Willem Koelewijn', 'Dirkjan Bussink']
   s.email    = ['janwillem.koelewijn@nedap.com', 'dirkjan.bussink@nedap.com']

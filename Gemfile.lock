@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    mordor-auditing (0.0.12)
-      mordor (= 0.2.9)
+    mordor-auditing (0.0.13)
+      mordor (= 0.2.10)
 
 GEM
   specs:
@@ -13,7 +13,7 @@ GEM
     json (1.6.1)
     mongo (1.4.0)
       bson (= 1.4.0)
-    mordor (0.2.9)
+    mordor (0.2.10)
       bson_ext
       extlib
       json
@@ -32,7 +32,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  mordor (= 0.2.9)
+  mordor (= 0.2.10)
   mordor-auditing!
   rake
   rspec (~> 2.0)
