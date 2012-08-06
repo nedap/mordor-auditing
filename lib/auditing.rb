@@ -6,10 +6,6 @@ require 'auditing/version'
 require 'auditing/request'
 require 'auditing/modification'
 
-Mordor::Config.use do |config|
- config[:database] = 'development89'
-end
-
 unless Object.const_defined?('BigDecimal')
   BigDecimal = Float
 end
