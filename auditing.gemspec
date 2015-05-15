@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
 
   # Do not set the version and date field manually, this is done by the release script
   s.version = Auditing::VERSION
-  s.date    = '2013-01-23'
+  s.date    = "2015-05-15"
 
   s.summary     = 'mordor-auditing'
   s.description = <<-eos
