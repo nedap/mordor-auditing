@@ -85,7 +85,7 @@ describe "with respect to modifications" do
       }
 
       mod = Auditing::Modification.new(options)
-      mod.save.should be_true
+      mod.save.should be true
       mod._id.should_not be_nil
 
       Auditing::Modification.collection.count.should == 1
@@ -109,7 +109,7 @@ describe "with respect to modifications" do
       }
 
       @modification = Auditing::Modification.new(options)
-      @modification.save.should be_true
+      @modification.save.should be true
       @modification._id.should_not be_nil
     end
 
@@ -149,7 +149,7 @@ describe "with respect to modifications" do
 
     it "should correctly retrieve requests by request_id" do
       @modification.request_id = "4e79b0b20e02e145a9000001"
-      @modification.save.should be_true
+      @modification.save.should be true
       mods = Auditing::Modification.find_by_request_id(@modification.request_id)
       mods.size.should == 1
       compare_modifications(@modification, mods.first)
@@ -157,7 +157,7 @@ describe "with respect to modifications" do
 
     it "should correctly retrieve requests by request" do
       @modification.request_id = "4e79b0b20e02e145a9000001"
-      @modification.save.should be_true
+      @modification.save.should be true
       mods = Auditing::Modification.find_by_request(@modification.request_id)
       mods.size.should == 1
       compare_modifications(@modification, mods.first)
