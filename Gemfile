@@ -1,11 +1,5 @@
-source "http://rubygems.org"
-gem "bundler", "> 1.0.0"
-gem "rake"
-gem "extlib"
-gem "json"
-gem "mongo"
-gem "mordor"
+source 'https://rubygems.org'
 
-group :test do
-  gem "rspec", "~> 2.0"
-end
+gemspec
+
+gem 'mordor', git: 'git@github.com:jwkoelewijn/mordor.git'
