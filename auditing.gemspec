@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.email    = ['janwillem.koelewijn@nedap.com', 'dirkjan.bussink@nedap.com']
   s.homepage = 'http://www.nedap.com'
 
-  s.add_runtime_dependency 'mordor'
+  s.add_runtime_dependency 'mordor', '~> 0.3.0'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 2.14'
