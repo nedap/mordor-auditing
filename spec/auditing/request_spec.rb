@@ -119,7 +119,7 @@ describe "with respect to auditing requests" do
         :at => Time.now
       }
       request = Auditing::Request.new(options)
-      request.save.should be_true
+      request.save.should be true
       request._id.should_not be_nil
 
       Auditing::Request.collection.count.should == 1
@@ -142,7 +142,7 @@ describe "with respect to auditing requests" do
         :at => @request_time
       }
       @request = Auditing::Request.new(options)
-      @request.save.should be_true
+      @request.save.should be true
       Auditing::Request.collection.find(:_id => @request._id).count.should == 1
     end
 
@@ -200,10 +200,9 @@ describe "with respect to auditing requests" do
           :changes => {:url => [@request.url, "#{@request.url}/request"]},
           :action => 'get',
           :at => @request_time,
-          :request_id => @request._id
         }
         @modification = Auditing::Modification.new(options)
-        @modification.save.should be_true
+        @modification.save.should be true
         @modification._id.should_not be_nil
         Auditing::Modification.collection.count == 1
       end
@@ -235,7 +234,7 @@ describe "with respect to auditing requests" do
         :at => Time.now
       }
       @request = Auditing::Request.new(options)
-      @request.save.should be_true
+      @request.save.should be true
     end
 
     it "should create url parts when saved" do
@@ -265,7 +264,7 @@ describe "with respect to auditing requests" do
         :at => Time.now
       }
       request = Auditing::Request.new(options)
-      request.save.should be_true
+      request.save.should be true
       request.url_parts.keys.should include "week"
       request.url_parts["week"].should == "2011-9"
 
@@ -278,7 +277,7 @@ describe "with respect to auditing requests" do
         :at => Time.now
       }
       request = Auditing::Request.new(options)
-      request.save.should be_true
+      request.save.should be true
       request.url_parts.keys.should_not include "week"
     end
 
@@ -292,7 +291,7 @@ describe "with respect to auditing requests" do
         :at => Time.now
       }
       request = Auditing::Request.new(options)
-      request.save.should be_true
+      request.save.should be true
 
       options2 = {
         :url => '/week/2011-9/staffing_agencies/13/customers/124/arrangements/123',
@@ -303,7 +302,7 @@ describe "with respect to auditing requests" do
         :at => Time.now
       }
       request2 = Auditing::Request.new(options2)
-      request2.save.should be_true
+      request2.save.should be true
 
       search_options = {
         :week => "2011-9"
@@ -312,7 +311,7 @@ describe "with respect to auditing requests" do
       results.size.should == 2
 
       match = (results.first._id == request._id || results.first._id == request2._id)
-      match.should be_true
+      match.should be true
 
       search_options = {
         :staffing_agencies => 1234
@@ -330,7 +329,7 @@ describe "with respect to auditing requests" do
       results.size.should == 2
 
       match = (results.first._id == request._id || results.first._id == request2._id)
-      match.should be_true
+      match.should be true
     end
 
     it "should be possible to add extra query parts to the url_parts query" do
@@ -343,7 +342,7 @@ describe "with respect to auditing requests" do
         :at => Time.now
       }
       request = Auditing::Request.new(options)
-      request.save.should be_true
+      request.save.should be true
 
       options2 = {
         :url => '/week/2011-9/staffing_agencies/13/customers/124/arrangements/123',
@@ -354,7 +353,7 @@ describe "with respect to auditing requests" do
         :at => Time.now
       }
       request2 = Auditing::Request.new(options2)
-      request2.save.should be_true
+      request2.save.should be true
 
       search_options = {
         :week => "2011-9"
