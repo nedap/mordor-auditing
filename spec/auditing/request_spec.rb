@@ -200,7 +200,6 @@ describe "with respect to auditing requests" do
           :changes => {:url => [@request.url, "#{@request.url}/request"]},
           :action => 'get',
           :at => @request_time,
-          :request_id => @request._id
         }
         @modification = Auditing::Modification.new(options)
         @modification.save.should be true
