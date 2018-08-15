@@ -25,6 +25,8 @@ module Auditing
     end
 
     def params=(params)
+      # replace_params is *really* slow when given huge requests.
+      # Lazily call that method when needed to combat this.
       @raw_params = params
     end
 
@@ -33,7 +35,7 @@ module Auditing
         @params = replace_params(@raw_params)
         @raw_params = nil
       end
-      super
+      @params
     end
 
     def self.find_by_url(url, partial = false)
