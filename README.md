@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/jwkoelewijn/auditing.png?branch=master)](http://travis-ci.org/jwkoelewijn/auditing)
+[![CircleCI](https://circleci.com/gh/nedap/mordor-auditing/tree/master.svg?style=svg)](https://circleci.com/gh/nedap/mordor-auditing/tree/master)
 
 ## Introduction
 
