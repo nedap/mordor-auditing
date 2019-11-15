@@ -66,14 +66,8 @@ workflows:
   version: 2
   CircleCI:
     jobs:
-      - build:
-          filters:
-            branches:
-              only: /.*/
-
+      - build
       - ruby_gems:
           filters:
             branches:
               only: master
-
-
