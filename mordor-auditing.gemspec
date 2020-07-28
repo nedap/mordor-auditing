@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.name    = 'mordor-auditing'
 
   # Do not set the version and date field manually, this is done by the release script
-  s.version = Auditing::VERSION
-  s.date    = "2015-05-15"
+  s.version = "0.1.1"
+  s.date    = "2020-07-28"
 
   s.summary     = 'mordor-auditing'
   s.description = <<-eos
@@ -24,5 +24,5 @@ Gem::Specification.new do |s|
 
   # The files and test_files directives are set automatically by the release script.
   # Do not change them by hand, but make sure to add the files to the git repository.
-  s.files = %w(.gitignore CHANGES.md Gemfile LICENSE README.md Rakefile auditing.gemspec lib/auditing.rb lib/auditing/modification.rb lib/auditing/request.rb lib/auditing/version.rb spec/auditing/modification_spec.rb spec/auditing/request_spec.rb spec/spec.opts spec/spec_helper.rb tasks/github-gem.rake .circleci/config.yml)
+  s.files = %w(.circleci/config.yml .gitignore CHANGES.md Gemfile LICENSE README.md Rakefile lib/auditing.rb lib/auditing/modification.rb lib/auditing/request.rb lib/auditing/version.rb mordor-auditing.gemspec spec/auditing/modification_spec.rb spec/auditing/request_spec.rb spec/spec.opts spec/spec_helper.rb tasks/github-gem.rake)
 end
